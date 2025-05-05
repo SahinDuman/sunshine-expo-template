@@ -1,68 +1,62 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import { useColorScheme } from "@/components/useColorScheme";
-import { Slot } from "expo-router";
+import { AuthProvider } from '@/context/AuthContext';
+import '@/global.css';
 
-import "../global.css";
+import { NAV_THEME } from '@/lib/constants';
+import { useColorScheme } from '@/lib/useColorScheme';
+import {
+	DarkTheme,
+	DefaultTheme,
+	Theme,
+	ThemeProvider,
+} from '@react-navigation/native';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import * as React from 'react';
+import { Platform } from 'react-native';
+
+const LIGHT_THEME: Theme = {
+	...DefaultTheme,
+	colors: NAV_THEME.light,
+};
+const DARK_THEME: Theme = {
+	...DarkTheme,
+	colors: NAV_THEME.dark,
+};
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
-
-// export const unstable_settings = {
-//   // Ensure that reloading on `/modal` keeps a back button present.
-//   initialRouteName: "gluestack",
-// };
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+	// Catch any errors thrown by the Layout component.
+	ErrorBoundary,
+} from 'expo-router';
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    ...FontAwesome.font,
-  });
+	const hasMounted = React.useRef(false);
+	const { isDarkColorScheme } = useColorScheme();
+	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  const [styleLoaded, setStyleLoaded] = useState(false);
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+	useIsomorphicLayoutEffect(() => {
+		if (hasMounted.current) {
+			return;
+		}
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+		setIsColorSchemeLoaded(true);
+		hasMounted.current = true;
+	}, []);
 
-  // useLayoutEffect(() => {
-  //   setStyleLoaded(true);
-  // }, [styleLoaded]);
+	if (!isColorSchemeLoaded) {
+		return null;
+	}
 
-  // if (!loaded || !styleLoaded) {
-  //   return null;
-  // }
-
-  return <RootLayoutNav />;
+	return (
+		<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+			<AuthProvider>
+				<StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+				<Stack screenOptions={{ headerShown: false }} />
+			</AuthProvider>
+		</ThemeProvider>
+	);
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <GluestackUIProvider mode={colorScheme === "dark" ? "dark" : "light"}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Slot />
-      </ThemeProvider>
-    </GluestackUIProvider>
-  );
-}
+const useIsomorphicLayoutEffect =
+	Platform.OS === 'web' && typeof window === 'undefined'
+		? React.useEffect
+		: React.useLayoutEffect;
