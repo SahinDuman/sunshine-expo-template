@@ -10,7 +10,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		// TODO: Update logic with real auth
-		router.replace('/(auth)/login');
+		router.replace('/(auth)/welcome');
 	}, [router]);
 
 	return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;

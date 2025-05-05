@@ -24,8 +24,9 @@ type StackProps = React.ComponentProps<typeof View> & {
 export const VStack = React.forwardRef<
 	React.ComponentRef<typeof View>,
 	StackProps
->(function VStack({ className, gap = 0, ...props }, ref) {
+>(function VStack({ className, gap = '0', ...props }, ref) {
 	const gapSize = `gap-${gap}`;
+	console.log({ gapSize });
 	return (
 		<View
 			className={cn('flex flex-col', gapSize, className)}
