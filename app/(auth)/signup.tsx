@@ -3,13 +3,11 @@ import { VStack } from '@/components/layout/Stacks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/lib/supabase';
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignupScreen() {
-	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -35,9 +33,6 @@ export default function SignupScreen() {
 			return;
 		}
 
-		if (session.user) {
-			router.push('/(auth)/welcome');
-		}
 		setLoading(false);
 	}
 
