@@ -26,14 +26,14 @@ export default function WelcomeScreen() {
 				<SafeAreaView className='flex-1 justify-end p-6 pb-12'>
 					<VStack className='gap-10'>
 						<Animated.View entering={FadeIn.delay(300).duration(1000)}>
-							<VStack gap='2'>
+							<VStack className='gap-2'>
 								<Text className='text-5xl text-white font-bold'>Itini</Text>
 								<Text className='text-white'>Your group travel companion</Text>
 							</VStack>
 						</Animated.View>
 
 						<Animated.View entering={FadeIn.delay(600).duration(1000)}>
-							<VStack gap='4'>
+							<VStack className='gap-4'>
 								<Text className='text-white'>
 									Plan trips, split bills, share photos, and chat with your
 									travel group - all in one place.

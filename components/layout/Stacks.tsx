@@ -17,36 +17,23 @@ type Size =
 	| '11'
 	| '12';
 
-type StackProps = React.ComponentProps<typeof View> & {
-	gap?: Size;
-};
+type StackProps = React.ComponentProps<typeof View>;
 
 export const VStack = React.forwardRef<
 	React.ComponentRef<typeof View>,
 	StackProps
->(function VStack({ className, gap = '0', ...props }, ref) {
-	const gapSize = `gap-${gap}`;
-	console.log({ gapSize });
+>(function VStack({ className, ...props }, ref) {
 	return (
-		<View
-			className={cn('flex flex-col', gapSize, className)}
-			{...props}
-			ref={ref}
-		/>
+		<View className={cn('flex flex-col', className)} {...props} ref={ref} />
 	);
 });
 
 export const HStack = React.forwardRef<
 	React.ComponentRef<typeof View>,
 	StackProps
->(function HStack({ className, gap = 0, ...props }, ref) {
-	const gapSize = `gap-${gap}`;
+>(function HStack({ className, ...props }, ref) {
 	return (
-		<View
-			className={cn('flex flex-row', gapSize, className)}
-			{...props}
-			ref={ref}
-		/>
+		<View className={cn('flex flex-row', className)} {...props} ref={ref} />
 	);
 });
 

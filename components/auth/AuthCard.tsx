@@ -20,7 +20,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({
 }) => {
 	return (
 		<Card className='bg-transparent border-0 shadow-none '>
-			<VStack gap='6'>
+			<VStack className='gap-6'>
 				<CardHeader className='p-0 gap-3'>
 					<CardTitle className='text-3xl font-display p-0'>{title}</CardTitle>
 					<CardDescription>{description}</CardDescription>

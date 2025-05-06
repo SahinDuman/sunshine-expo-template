@@ -6,6 +6,10 @@ const {
 
 const config = getDefaultConfig(__dirname);
 
+// Supabase fix
+config.resolver.unstable_conditionNames = ['browser'];
+config.resolver.unstable_enablePackageExports = false;
+
 module.exports = wrapWithReanimatedMetroConfig(
 	withNativeWind(config, { input: './global.css' })
 );
