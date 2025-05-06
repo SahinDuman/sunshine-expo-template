@@ -37,11 +37,38 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='explore'
+				name='bill-splitting'
 				options={{
-					title: 'Explore',
+					title: 'Bill splitting',
 					tabBarIcon: ({ color }) => (
-						<IconSymbol size={28} name='paperplane.fill' color={color} />
+						<IconSymbol size={28} name='square.split.1x2' color={color} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='chat'
+				options={{
+					title: 'Chat',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol size={28} name='message' color={color} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='gallery'
+				options={{
+					title: 'Gallery',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol size={28} name='folder' color={color} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='profile'
+				options={{
+					title: 'Profile',
+					tabBarIcon: ({ color }) => (
+						<IconSymbol size={28} name='person' color={color} />
 					),
 				}}
 			/>

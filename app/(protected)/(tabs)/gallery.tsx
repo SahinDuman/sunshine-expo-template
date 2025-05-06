@@ -3,7 +3,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
-export default function HomeScreen() {
+export default function GalleryScreen() {
 	return (
 		<ParallaxScrollView
 			headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -16,7 +16,7 @@ export default function HomeScreen() {
 			}
 		>
 			<ThemedView>
-				<ThemedText type='title'>Home</ThemedText>
+				<ThemedText type='title'>Gallery</ThemedText>
 			</ThemedView>
 		</ParallaxScrollView>
 	);
