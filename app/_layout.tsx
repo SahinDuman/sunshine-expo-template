@@ -1,6 +1,7 @@
-import { AuthProvider } from '@/context/AuthContext';
 import '@/global.css';
+import '@/lib/i18n';
 
+import { AuthProvider } from '@/context/AuthContext';
 import { NAV_THEME } from '@/lib/constants';
 import { useColorScheme } from '@/lib/useColorScheme';
 import {

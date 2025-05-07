@@ -61,7 +61,7 @@ export default function ProfileScreen() {
 			leftIcon: <IconSymbol name='globe' color='#000' size={20} />,
 			label: 'Language',
 			onPress: () => {
-				Alert.alert('Language', 'Not implemented yet');
+				router.push('/(protected)/(tabs)/profile/language');
 			},
 		},
 		{

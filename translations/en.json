@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"login": {
+			"title": "Login",
+			"description": "Enter your registered account email and password."
+		}
+	}
+}
