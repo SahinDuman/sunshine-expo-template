@@ -9,6 +9,7 @@ import {
 	Theme,
 	ThemeProvider,
 } from '@react-navigation/native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
@@ -27,6 +28,8 @@ export {
 	// Catch any errors thrown by the Layout component.
 	ErrorBoundary,
 } from 'expo-router';
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
 	const hasMounted = React.useRef(false);
@@ -47,12 +50,14 @@ export default function RootLayout() {
 	}
 
 	return (
-		<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-			<AuthProvider>
-				<StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-				<Stack screenOptions={{ headerShown: false, animation: 'none' }} />
-			</AuthProvider>
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+				<AuthProvider>
+					<StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+					<Stack screenOptions={{ headerShown: false, animation: 'none' }} />
+				</AuthProvider>
+			</ThemeProvider>
+		</QueryClientProvider>
 	);
 }
 

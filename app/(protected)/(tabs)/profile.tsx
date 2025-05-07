@@ -3,10 +3,37 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Button } from '@/components/ui/button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { supabase } from '@/lib/supabase';
 import { Alert } from 'react-native';
 
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase';
+import { useQuery } from '@tanstack/react-query';
+
+const useUserProfile = () => {
+	const { session } = useAuth();
+	const userId = session?.user.id;
+
+	return useQuery({
+		queryKey: ['profile', session],
+		queryFn: async () => {
+			if (!userId) return null;
+			const { data, error } = await supabase
+				.from('profile')
+				.select('display_name, avatar_url, email')
+				.eq('id', userId)
+				.single();
+			if (error) throw error;
+			return data;
+		},
+		enabled: Boolean(userId),
+	});
+};
+
 export default function ProfileScreen() {
+	const { data: profile } = useUserProfile();
+
+	const name = profile?.display_name ?? profile?.email?.split('@')[0];
+
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
 		if (error) {
@@ -26,7 +53,7 @@ export default function ProfileScreen() {
 			}
 		>
 			<ThemedView>
-				<ThemedText type='title'>Profile</ThemedText>
+				<ThemedText type='title'>{name}</ThemedText>
 				<Button onPress={handleLogout}>Logout</Button>
 			</ThemedView>
 		</ParallaxScrollView>
