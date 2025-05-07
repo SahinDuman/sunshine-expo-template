@@ -5,32 +5,13 @@ import { ProfileAvatar } from '@/components/profile/ProfileAvatar';
 import { Button } from '@/components/ui/button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Text } from '@/components/ui/text';
-import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
+import { useUserProfile } from '@/queries/profile';
+import { useRouter } from 'expo-router';
 import { JSX } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-function useUserProfile() {
-	const { session } = useAuth();
-	const userId = session?.user.id;
-
-	return useQuery({
-		queryKey: ['profile', session],
-		queryFn: async () => {
-			if (!userId) return null;
-			const { data, error } = await supabase
-				.from('profile')
-				.select('display_name, avatar_url, email')
-				.eq('id', userId)
-				.single();
-			if (error) throw error;
-			return data;
-		},
-		enabled: Boolean(userId),
-	});
-}
 type ProfileItemProps = {
 	leftIcon?: JSX.Element;
 	rightIcon?: JSX.Element;
@@ -64,16 +45,9 @@ function ProfileItem({
 }
 
 export default function ProfileScreen() {
+	const router = useRouter();
 	const { data: profile } = useUserProfile();
 	const name = profile?.display_name ?? profile?.email?.split('@')[0];
-	const initials =
-		name
-			?.split(' ')
-			.map((n) => n[0])
-			.join('')
-			.toUpperCase() ?? '??';
-
-	console.log({ initials });
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -94,7 +68,7 @@ export default function ProfileScreen() {
 			leftIcon: <IconSymbol name='moon' color='#000' size={20} />,
 			label: 'Theme',
 			onPress: () => {
-				Alert.alert('Theme', 'Not implemented yet');
+				router.push('/(protected)/(tabs)/profile/theme');
 			},
 		},
 	];
@@ -110,13 +84,13 @@ export default function ProfileScreen() {
 						<ProfileItem
 							className='py-6 bg-muted'
 							onPress={() => {
-								Alert.alert('Edit', 'Not implemented yet');
+								router.push('/(protected)/(tabs)/profile/edit');
 							}}
 							leftIcon={
 								<ProfileAvatar
 									className='h-12 w-12 bg-muted-foreground'
 									url={profile?.avatar_url}
-									fallBackText={initials}
+									displayName={name ?? ''}
 								/>
 							}
 						>

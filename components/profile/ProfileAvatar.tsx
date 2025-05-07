@@ -3,20 +3,27 @@ import { Text } from '../ui/text';
 
 type ProfileAvatarProps = {
 	url?: string | null;
-	fallBackText: string;
+	displayName?: string | null;
 	className?: string;
 };
 
 export function ProfileAvatar({
 	url,
-	fallBackText,
+	displayName,
 	className,
 }: ProfileAvatarProps) {
+	const initials =
+		displayName
+			?.split(' ')
+			.map((n) => n[0])
+			.join('')
+			.toUpperCase() ?? '??';
+
 	return (
-		<Avatar alt={`${fallBackText} avatar`} className={className}>
+		<Avatar alt={`${displayName} avatar`} className={className}>
 			<AvatarImage src={url ?? ''} />
 			<AvatarFallback className='bg-secondary'>
-				<Text>{fallBackText}</Text>
+				<Text>{initials}</Text>
 			</AvatarFallback>
 		</Avatar>
 	);
