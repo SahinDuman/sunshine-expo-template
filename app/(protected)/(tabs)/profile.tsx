@@ -1,15 +1,18 @@
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Alert, FlatList, Pressable, View } from 'react-native';
+
+import { HStack, VStack } from '@/components/layout/Stacks';
+import { ProfileAvatar } from '@/components/profile/ProfileAvatar';
 import { Button } from '@/components/ui/button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { Alert } from 'react-native';
-
+import { Text } from '@/components/ui/text';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
+import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
+import { JSX } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const useUserProfile = () => {
+function useUserProfile() {
 	const { session } = useAuth();
 	const userId = session?.user.id;
 
@@ -27,12 +30,50 @@ const useUserProfile = () => {
 		},
 		enabled: Boolean(userId),
 	});
+}
+type ProfileItemProps = {
+	leftIcon?: JSX.Element;
+	rightIcon?: JSX.Element;
+	children?: JSX.Element;
+	onPress?: () => void;
+	className?: string;
 };
+
+function ProfileItem({
+	children,
+	onPress,
+	leftIcon,
+	rightIcon = <IconSymbol name='arrow.right' color='#808080' size={24} />,
+	className,
+}: ProfileItemProps) {
+	return (
+		<Pressable
+			onPress={onPress}
+			className={cn(
+				'p-4 rounded-md justify-between flex-row items-center',
+				className
+			)}
+		>
+			<HStack className='gap-4 items-center'>
+				{leftIcon}
+				{children}
+			</HStack>
+			{rightIcon}
+		</Pressable>
+	);
+}
 
 export default function ProfileScreen() {
 	const { data: profile } = useUserProfile();
-
 	const name = profile?.display_name ?? profile?.email?.split('@')[0];
+	const initials =
+		name
+			?.split(' ')
+			.map((n) => n[0])
+			.join('')
+			.toUpperCase() ?? '??';
+
+	console.log({ initials });
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -41,21 +82,62 @@ export default function ProfileScreen() {
 		}
 	};
 
+	const data = [
+		{
+			leftIcon: <IconSymbol name='globe' color='#000' size={20} />,
+			label: 'Language',
+			onPress: () => {
+				Alert.alert('Language', 'Not implemented yet');
+			},
+		},
+		{
+			leftIcon: <IconSymbol name='moon' color='#000' size={20} />,
+			label: 'Theme',
+			onPress: () => {
+				Alert.alert('Theme', 'Not implemented yet');
+			},
+		},
+	];
+
 	return (
-		<ParallaxScrollView
-			headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-			headerImage={
-				<IconSymbol
-					size={310}
-					color='#808080'
-					name='chevron.left.forwardslash.chevron.right'
-				/>
-			}
-		>
-			<ThemedView>
-				<ThemedText type='title'>{name}</ThemedText>
-				<Button onPress={handleLogout}>Logout</Button>
-			</ThemedView>
-		</ParallaxScrollView>
+		<SafeAreaView className='p-6 flex-1'>
+			<FlatList
+				className='flex-1'
+				contentContainerClassName='flex-grow gap-2'
+				ListHeaderComponent={
+					<VStack className='gap-8 mb-12'>
+						<Text className='text-4xl font-bold'>Profile</Text>
+						<ProfileItem
+							className='py-6 bg-muted'
+							onPress={() => {
+								Alert.alert('Edit', 'Not implemented yet');
+							}}
+							leftIcon={
+								<ProfileAvatar
+									className='h-12 w-12 bg-muted-foreground'
+									url={profile?.avatar_url}
+									fallBackText={initials}
+								/>
+							}
+						>
+							<View>
+								<Text className='text-lg font-bold'>{name}</Text>
+								<Text className='text-muted-foreground text-sm'>
+									Edit profile
+								</Text>
+							</View>
+						</ProfileItem>
+					</VStack>
+				}
+				data={data}
+				renderItem={({ item }) => (
+					<ProfileItem {...item}>
+						<Text>{item.label}</Text>
+					</ProfileItem>
+				)}
+				ListFooterComponent={<Button onPress={handleLogout}>Logout</Button>}
+				ListFooterComponentClassName='mt-auto pt-6 mb-16'
+			/>
+		</SafeAreaView>
 	);
 }
