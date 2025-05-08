@@ -1,50 +1,30 @@
-# Welcome to your Expo app 👋
+# Sunshine Expo Template
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a quickstart template I made with the stack I use for my personal projects.
 
-## Get started
+## Background
 
-1. Install dependencies
+For the last 6 months I have tried to start a new side project a whole bunch of times, on my own and with friends. It's always time-consuming to startup a project and setting a foundation, especially setting up authentication, routing and form handling. I wanted to create a template that has a basic but solid setup so that I can focus on my main project and not lose motivation early on due to these things.
 
-   ```bash
-   npm install
-   ```
+I've made templates before and I know that they easily get outdated without commitment. My thought was that this is a solid setup for my upcoming projects for this year at least.
 
-2. Start the app
+## Stack
 
-   ```bash
-   npx expo start
-   ```
+Base: Latest Expo setup with SDK 53, React-Native 0.79 and React 19.0.0.
 
-In the output, you'll find options to open the app in a
+- Nativewind for styling
+- [RNR-Primitives](https://rnr-docs.vercel.app/getting-started/introduction/) for UI components (The shadcn of React native). The components are a bit lacking but it's a great tool for quick starts and it's easy to customize if you want to.
+- Supabase for authentication and database
+- React Hook Form for form handling
+- Zod for type validation
+- Tanstack Query for data fetching
+- i18next & react-i18next for internationalization
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## TODO
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+I wish to keep adding small improvements without being too opinionated. I do enjoy trying new tools in each side project, so I'm trying to keep this minimal.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [ ] Add more routing examples
+- [ ] Add gesture handling examples
+- [ ] Add basic formatting utils
+- [ ] Add my favorite Eslint rules
