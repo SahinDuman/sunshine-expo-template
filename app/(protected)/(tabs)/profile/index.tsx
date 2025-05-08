@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { useUserProfile } from '@/queries/profile';
 import { useRouter } from 'expo-router';
 import { JSX } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type ProfileItemProps = {
@@ -45,9 +46,10 @@ function ProfileItem({
 }
 
 export default function ProfileScreen() {
+	const { t } = useTranslation('profile');
 	const router = useRouter();
 	const { data: profile } = useUserProfile();
-	const name = profile?.display_name ?? profile?.email?.split('@')[0];
+	const name = profile?.display_name;
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -59,14 +61,14 @@ export default function ProfileScreen() {
 	const data = [
 		{
 			leftIcon: <IconSymbol name='globe' color='#000' size={20} />,
-			label: 'Language',
+			label: t('language'),
 			onPress: () => {
 				router.push('/(protected)/(tabs)/profile/language');
 			},
 		},
 		{
 			leftIcon: <IconSymbol name='moon' color='#000' size={20} />,
-			label: 'Theme',
+			label: t('theme'),
 			onPress: () => {
 				router.push('/(protected)/(tabs)/profile/theme');
 			},
@@ -80,7 +82,7 @@ export default function ProfileScreen() {
 				contentContainerClassName='flex-grow gap-2'
 				ListHeaderComponent={
 					<VStack className='gap-8 mb-12'>
-						<Text className='text-4xl font-bold'>Profile</Text>
+						<Text className='text-4xl font-bold'>{t('title')}</Text>
 						<ProfileItem
 							className='py-6 bg-muted'
 							onPress={() => {
@@ -97,7 +99,7 @@ export default function ProfileScreen() {
 							<View>
 								<Text className='text-lg font-bold'>{name}</Text>
 								<Text className='text-muted-foreground text-sm'>
-									Edit profile
+									{t('edit_profile')}
 								</Text>
 							</View>
 						</ProfileItem>
@@ -109,7 +111,9 @@ export default function ProfileScreen() {
 						<Text>{item.label}</Text>
 					</ProfileItem>
 				)}
-				ListFooterComponent={<Button onPress={handleLogout}>Logout</Button>}
+				ListFooterComponent={
+					<Button onPress={handleLogout}>{t('ctas.logout')}</Button>
+				}
 				ListFooterComponentClassName='mt-auto pt-6 mb-16'
 			/>
 		</SafeAreaView>

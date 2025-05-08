@@ -1,8 +1,60 @@
 {
 	"auth": {
+		"welcome": {
+			"phrase": "Your group travel companion",
+			"description": "Plan trips, split bills, share photos, and chat with your travel group - all in one place.",
+			"ctas": {
+				"get_started": "Get Started",
+				"already_registered": "I already have an account"
+			}
+		},
 		"login": {
 			"title": "Login",
-			"description": "Enter your registered account email and password."
+			"description": "Enter your registered account email and password.",
+			"no_account": "Don't have an account? <Link>Signup here</Link>",
+			"fields": {
+				"email": "Email",
+				"password": "Password"
+			},
+			"ctas": {
+				"login": "Login",
+				"forgot_password": "Forgot password?"
+			}
+		},
+		"signup": {
+			"title": "Sign Up",
+			"description": "Enter your email and password to get started.",
+			"already_registered": "Already have an account? <Link>Login here</Link>",
+			"fields": {
+				"name": "Name",
+				"email": "Email",
+				"password": "Password"
+			},
+			"ctas": {
+				"signup": "Sign Up"
+			}
+		}
+	},
+	"profile": {
+		"title": "Profile",
+		"edit_profile": "Edit Profile",
+		"edit_profile_settings": {
+			"fields": {
+				"name": "Name",
+				"email": "Email"
+			},
+			"ctas": {
+				"save": "Save"
+			}
+		},
+		"language": "Language",
+		"theme": "Theme",
+		"theme_settings": {
+			"light": "Light",
+			"dark": "Dark"
+		},
+		"ctas": {
+			"logout": "Logout"
 		}
 	}
 }

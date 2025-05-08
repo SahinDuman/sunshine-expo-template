@@ -6,11 +6,14 @@ import { VStack } from '@/components/layout/Stacks';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function WelcomeScreen() {
 	const router = useRouter();
+	const { t } = useTranslation('auth', { keyPrefix: 'welcome' });
+
 	return (
 		<ImageBackground
 			source={{
@@ -28,24 +31,21 @@ export default function WelcomeScreen() {
 						<Animated.View entering={FadeIn.delay(300).duration(1000)}>
 							<VStack className='gap-2'>
 								<Text className='text-5xl text-white font-bold'>Itini</Text>
-								<Text className='text-white'>Your group travel companion</Text>
+								<Text className='text-white'>{t('phrase')}</Text>
 							</VStack>
 						</Animated.View>
 
 						<Animated.View entering={FadeIn.delay(600).duration(1000)}>
 							<VStack className='gap-4'>
-								<Text className='text-white'>
-									Plan trips, split bills, share photos, and chat with your
-									travel group - all in one place.
-								</Text>
+								<Text className='text-white'>{t('description')}</Text>
 								<Button onPress={() => router.push('/(auth)/signup')} size='lg'>
-									Get started
+									{t('ctas.get_started')}
 								</Button>
 								<Button
 									onPress={() => router.push('/(auth)/login')}
 									variant='outline'
 								>
-									I already have an account
+									{t('ctas.already_registered')}
 								</Button>
 							</VStack>
 						</Animated.View>

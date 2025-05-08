@@ -10,7 +10,7 @@ export const useLanguage = () => {
 			await AsyncStorage.setItem('language', language);
 			i18n.changeLanguage(language);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
