@@ -4,7 +4,7 @@ import { VStack } from '@/components/layout/Stacks';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { supabase } from '@/lib/supabase';
-import { SignupSchema, signupSchema } from '@/types/auth';
+import { signupSchema, SignupSchema } from '@/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import { useState } from 'react';

@@ -3,7 +3,7 @@ import { VStack } from '@/components/layout/Stacks';
 import { ProfileAvatar } from '@/components/profile/ProfileAvatar';
 import { Button } from '@/components/ui/button';
 import { useProfileMutation, useUserProfile } from '@/queries/profile';
-import { profileSchema } from '@/types/profile';
+import { profileSchema } from '@/schemas/profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
