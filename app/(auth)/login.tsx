@@ -1,35 +1,47 @@
 import { AuthCard } from '@/components/auth/AuthCard';
+import { FormInput } from '@/components/form/FormInput';
 import { VStack } from '@/components/layout/Stacks';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { supabase } from '@/lib/supabase';
+import { LoginSchema, loginSchema } from '@/types/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen() {
 	const { t } = useTranslation('auth', { keyPrefix: 'login' });
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 
-	const signInWithEmail = async () => {
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(loginSchema),
+		defaultValues: { email: '', password: '' },
+	});
+
+	const signInWithEmail = async (data: LoginSchema) => {
 		setLoading(true);
-		const { error } = await supabase.auth.signInWithPassword({
-			email: email,
-			password: password,
-		});
+		try {
+			const { error } = await supabase.auth.signInWithPassword({
+				email: data.email,
+				password: data.password,
+			});
 
-		if (error) {
-			Alert.alert(error.message);
+			if (error) {
+				Alert.alert(error.message);
+			}
+		} catch (error) {
+			Alert.alert('An unexpected error occurred');
+		} finally {
 			setLoading(false);
-			return;
 		}
-
-		setLoading(false);
 	};
 
 	return (
@@ -37,19 +49,25 @@ export default function LoginScreen() {
 			<AuthCard title={t('title')} description={t('description')}>
 				<VStack className='gap-8'>
 					<VStack className='gap-3'>
-						<Input
+						<FormInput
+							control={control}
+							name='email'
+							label={t('fields.email')}
 							placeholder={t('fields.email')}
+							error={errors.email}
 							inputMode='email'
-							onChangeText={setEmail}
 						/>
-						<Input
+						<FormInput
+							control={control}
+							name='password'
+							label={t('fields.password')}
 							placeholder={t('fields.password')}
+							error={errors.password}
 							secureTextEntry
-							onChangeText={setPassword}
 						/>
 					</VStack>
 					<VStack className='gap-3'>
-						<Button onPress={signInWithEmail} disabled={loading}>
+						<Button onPress={handleSubmit(signInWithEmail)} disabled={loading}>
 							{t('ctas.login')}
 						</Button>
 						<Text className='text-center'>
